@@ -1,10 +1,17 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 /**
- * TangentFunctionCalculator is a Swing-based application that calculates the tangent of a given angle in degrees.
+ * TangentFunctionCalculator version 1.0.0is a Swing-based application that calculates the tangent of a given angle in degrees.
  * The application includes a graphical user interface (GUI) for user input, result display, and computation time.
  */
 public class TangentFunctionCalculator {
@@ -127,7 +134,7 @@ public class TangentFunctionCalculator {
         int n = 1; // counter used for generating the factorial in the denominator of the Taylor series terms.
 
         while (Math.abs(term) > 1e-15) {
-            term = -term * radians * radians / (2 * n * (2 * n + 1)); // Taylor series to compute Sine
+            term = -term * radians * radians / (2 * n * (2 * n + 1)); 
             sine += term;
             n++;
         }
@@ -147,7 +154,7 @@ public class TangentFunctionCalculator {
         int n = 1; // counter used for generating the factorial in the denominator of the Taylor series terms.
 
         while (Math.abs(term) > 1e-15) {
-            term = -term * radians * radians / (2 * n * (2 * n - 1)); // Taylor series for Cosine
+            term = -term * radians * radians / (2 * n * (2 * n - 1));
             cosine += term;
             n++;
         }
