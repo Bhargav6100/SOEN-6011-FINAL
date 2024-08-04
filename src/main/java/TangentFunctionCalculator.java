@@ -1,3 +1,5 @@
+package main.java;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -17,7 +19,7 @@ import javax.swing.SwingUtilities;
  * and computation time.
  *
  * @author Bhargav Fofandi
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class TangentFunctionCalculator {
 
@@ -97,7 +99,7 @@ public class TangentFunctionCalculator {
    * @return the tangent of the angle
    * @throws IllegalArgumentException if the angle is where the tangent is undefined
    */
-  private static double calculateTangent(double degrees) throws IllegalArgumentException {
+  public static double calculateTangent(double degrees) throws IllegalArgumentException {
     double normalizedDegrees = degrees % 360;
     if (normalizedDegrees < 0) {
       normalizedDegrees += 360;
@@ -133,7 +135,7 @@ public class TangentFunctionCalculator {
    * @param radians the angle in radians
    * @return the sine of the angle
    */
-  private static double calculateSine(double radians) {
+  public static double calculateSine(double radians) {
     double sine = radians;
     double term = radians;
     int n = 1;
@@ -153,7 +155,7 @@ public class TangentFunctionCalculator {
    * @param radians the angle in radians
    * @return the cosine of the angle
    */
-  private static double calculateCosine(double radians) {
+  public static double calculateCosine(double radians) {
     double cosine = 1.0;
     double term = 1.0;
     int n = 1;
