@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -18,7 +19,7 @@ import javax.swing.WindowConstants;
  * and computation time.
  *
  * @author Bhargav Fofandi
- * @version 1.0.2
+ * @version 1.1.0
  */
 public class TangentFunctionCalculator {
 
@@ -35,7 +36,7 @@ public class TangentFunctionCalculator {
   /** Creates and displays the GUI for the Tangent Function Calculator. */
   private static void createAndShowGui() {
     JFrame frame = new JFrame("Tangent Function Calculator");
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     frame.setLayout(new BorderLayout());
 
@@ -43,14 +44,15 @@ public class TangentFunctionCalculator {
     JLabel angleLabel = new JLabel("Enter angle in degrees:");
     JTextField angleField = new JTextField(TEXT_FIELD_LENGTH);
     JButton calculateButton = new JButton("Calculate");
+    JButton exitButton = new JButton("Exit");
 
     inputPanel.add(angleLabel);
     inputPanel.add(angleField);
     inputPanel.add(calculateButton);
+    inputPanel.add(exitButton);
 
     JTextArea resultArea = new JTextArea(5, 20);
     resultArea.setEditable(false);
-
 
     JLabel timeLabel = new JLabel("Computation time:");
     JTextField timeField = new JTextField(15);
@@ -59,7 +61,7 @@ public class TangentFunctionCalculator {
     JPanel timePanel = new JPanel(new FlowLayout());
     timePanel.add(timeLabel);
     timePanel.add(timeField);
-   
+
     JScrollPane scrollPane = new JScrollPane(resultArea);
     frame.add(inputPanel, BorderLayout.NORTH);
     frame.add(scrollPane, BorderLayout.CENTER);
@@ -73,8 +75,7 @@ public class TangentFunctionCalculator {
         long endTime = System.nanoTime();
         long duration = endTime - startTime; // duration in nanoseconds
         double durationInMs = duration / 1e6; // convert to milliseconds
-        resultArea.setText(
-             String.format("The tangent of %.2f degrees is %.4f%n", degrees, result));
+        resultArea.setText(String.format("The tangent of %.2f degrees is %.4f%n", degrees, result));
         timeField.setText(String.format("%.6f ms", durationInMs));
       } catch (NumberFormatException ex) {
         resultArea.setText("Invalid input. Please enter a valid number.");
@@ -82,10 +83,20 @@ public class TangentFunctionCalculator {
         resultArea.setText(ex.getMessage());
       }
     });
-      
+
+    exitButton.addActionListener(e -> {
+      int confirm = JOptionPane.showConfirmDialog(frame,
+              "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+      if (confirm == JOptionPane.YES_OPTION) {
+        JOptionPane.showMessageDialog(frame,
+            "Thank you for using the Tangent Function Calculator.");
+        System.exit(0);
+      }
+    });
 
     frame.setVisible(true);
   }
+
 
   /**
    * Computes the tangent of the given angle in degrees without using built-in trigonometric
