@@ -2,8 +2,6 @@ package main.java;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 /**
  * A Swing-based application that calculates the tangent of a given angle in degrees.
@@ -19,7 +18,7 @@ import javax.swing.SwingUtilities;
  * and computation time.
  *
  * @author Bhargav Fofandi
- * @version 1.0.1
+ * @version 1.0.2
  */
 public class TangentFunctionCalculator {
 
@@ -36,7 +35,7 @@ public class TangentFunctionCalculator {
   /** Creates and displays the GUI for the Tangent Function Calculator. */
   private static void createAndShowGui() {
     JFrame frame = new JFrame("Tangent Function Calculator");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
     frame.setLayout(new BorderLayout());
 
@@ -66,27 +65,24 @@ public class TangentFunctionCalculator {
     frame.add(scrollPane, BorderLayout.CENTER);
     frame.add(timePanel, BorderLayout.SOUTH);
 
-    calculateButton.addActionListener(
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            try {
-              double degrees = Double.parseDouble(angleField.getText());
-              long startTime = System.nanoTime();
-              double result = calculateTangent(degrees);
-              long endTime = System.nanoTime();
-              long duration = endTime - startTime; // duration in nanoseconds
-              double durationInMs = duration / 1e6; // convert to milliseconds
-              resultArea.setText(
-                  String.format("The tangent of %.2f degrees is %.4f%n", degrees, result));
-              timeField.setText(String.format("%.6f ms", durationInMs));
-            } catch (NumberFormatException ex) {
-              resultArea.setText("Invalid input. Please enter a valid number.");
-            } catch (IllegalArgumentException ex) {
-              resultArea.setText(ex.getMessage());
-            }
-          }
-        });
+    calculateButton.addActionListener(e -> {
+      try {
+        double degrees = Double.parseDouble(angleField.getText());
+        long startTime = System.nanoTime();
+        double result = calculateTangent(degrees);
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime; // duration in nanoseconds
+        double durationInMs = duration / 1e6; // convert to milliseconds
+        resultArea.setText(
+             String.format("The tangent of %.2f degrees is %.4f%n", degrees, result));
+        timeField.setText(String.format("%.6f ms", durationInMs));
+      } catch (NumberFormatException ex) {
+        resultArea.setText("Invalid input. Please enter a valid number.");
+      } catch (IllegalArgumentException ex) {
+        resultArea.setText(ex.getMessage());
+      }
+    });
+      
 
     frame.setVisible(true);
   }
