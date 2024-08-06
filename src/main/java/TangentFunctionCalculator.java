@@ -23,7 +23,7 @@ import javax.swing.WindowConstants;
  * and computation time.
  *
  * @author Bhargav Fofandi
- * @version 1.1.0
+ * @version 1.2.0
  */
 public class TangentFunctionCalculator {
 
