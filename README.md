@@ -11,16 +11,16 @@ Installation:
 Ensure you have Java Development Kit (JDK) 21 or newer installed on your machine.
 
 # Clone the repository
-git clone https://github.com/yourusername/TangentFunctionCalculator.git
+git clone https://github.com/Bhargav6100/SOEN-6011-FINAL.git
 
 # Navigate to the project directory
-cd TangentFunctionCalculator
+cd SOEN-6011-FINAL
 
 # Compile the Java file
 javac src/main/java/TangentFunctionCalculator.java
 
 # Run the application
-java -cp src/main/java TangentFunctionCalculator
+java src/main/java TangentFunctionCalculator
 
 Usage:
 
