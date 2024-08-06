@@ -2,6 +2,10 @@ package main.java;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleContext;
+import javax.accessibility.AccessibleRole;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,10 +46,13 @@ public class TangentFunctionCalculator {
 
     JPanel inputPanel = new JPanel(new FlowLayout());
     JLabel angleLabel = new JLabel("Enter angle in degrees:");
-    JTextField angleField = new JTextField(TEXT_FIELD_LENGTH);
-    JButton calculateButton = new JButton("Calculate");
-    JButton exitButton = new JButton("Exit");
+    JButton calculateButton = new AccessibleButton("Calculate");
+    JButton exitButton = new AccessibleButton("Exit");
 
+    // Add mnemonics for keyboard accessibility
+    calculateButton.setMnemonic(KeyEvent.VK_C); // Alt + C to calculate
+    exitButton.setMnemonic(KeyEvent.VK_X); // Alt + X to exit
+    JTextField angleField = new JTextField(TEXT_FIELD_LENGTH);
     inputPanel.add(angleLabel);
     inputPanel.add(angleField);
     inputPanel.add(calculateButton);
@@ -86,10 +93,10 @@ public class TangentFunctionCalculator {
 
     exitButton.addActionListener(e -> {
       int confirm = JOptionPane.showConfirmDialog(frame,
-              "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+               "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
       if (confirm == JOptionPane.YES_OPTION) {
         JOptionPane.showMessageDialog(frame,
-            "Thank you for using the Tangent Function Calculator.");
+                      "Thank you for using the Tangent Function Calculator.");
         System.exit(0);
       }
     });
@@ -97,15 +104,14 @@ public class TangentFunctionCalculator {
     frame.setVisible(true);
   }
 
-
   /**
-   * Computes the tangent of the given angle in degrees without using built-in trigonometric
-   * functions.
-   *
-   * @param degrees the angle in degrees
-   * @return the tangent of the angle
-   * @throws IllegalArgumentException if the angle is where the tangent is undefined
-   */
+     * Computes the tangent of the given angle in degrees without using built-in trigonometric
+     * functions.
+     *
+     * @param degrees the angle in degrees
+     * @return the tangent of the angle
+     * @throws IllegalArgumentException if the angle is where the tangent is undefined
+     */
   public static double calculateTangent(double degrees) throws IllegalArgumentException {
     double normalizedDegrees = degrees % 360;
     if (normalizedDegrees < 0) {
@@ -114,8 +120,8 @@ public class TangentFunctionCalculator {
 
     if ((normalizedDegrees % 180) == 90) {
       throw new IllegalArgumentException(
-          "The tangent function is undefined at this angle" 
-          + "(angle is an odd multiple of 90 degrees).");
+                    "The tangent function is undefined at this angle"
+                    + "(angle is an odd multiple of 90 degrees).");
     }
 
     double radians = degrees * Math.PI / 180.0;
@@ -124,7 +130,7 @@ public class TangentFunctionCalculator {
 
     if (Math.abs(cos) < EPSILON) {
       throw new IllegalArgumentException(
-          "The tangent function is undefined at this angle (cosine of the angle is zero).");
+                "The tangent function is undefined at this angle (cosine of the angle is zero).");
     }
 
     double result = sin / cos;
@@ -137,11 +143,11 @@ public class TangentFunctionCalculator {
   }
 
   /**
-   * Computes the sine of the given angle in radians using a Taylor series approximation.
-   *
-   * @param radians the angle in radians
-   * @return the sine of the angle
-   */
+     * Computes the sine of the given angle in radians using a Taylor series approximation.
+     *
+     * @param radians the angle in radians
+     * @return the sine of the angle
+     */
   public static double calculateSine(double radians) {
     double sine = radians;
     double term = radians;
@@ -157,11 +163,11 @@ public class TangentFunctionCalculator {
   }
 
   /**
-   * Computes the cosine of the given angle in radians using a Taylor series approximation.
-   *
-   * @param radians the angle in radians
-   * @return the cosine of the angle
-   */
+     * Computes the cosine of the given angle in radians using a Taylor series approximation.
+     *
+     * @param radians the angle in radians
+     * @return the cosine of the angle
+     */
   public static double calculateCosine(double radians) {
     double cosine = 1.0;
     double term = 1.0;
@@ -174,5 +180,35 @@ public class TangentFunctionCalculator {
     }
 
     return cosine;
+  }
+
+  /** 
+     * Custom JButton with accessibility support. 
+     */
+  @SuppressWarnings("unused")
+  private static class AccessibleButton extends JButton implements Accessible {
+    public AccessibleButton(String text) {
+      super(text);
+    }
+
+    @Override
+        public AccessibleContext getAccessibleContext() {
+      if (accessibleContext == null) {
+        accessibleContext = new AccessibleButtonContext();
+      }
+      return accessibleContext;
+    }
+
+    protected class AccessibleButtonContext extends AccessibleJButton {
+      @Override
+            public String getAccessibleName() {
+        return AccessibleButton.this.getText();
+      }
+
+      @Override
+            public AccessibleRole getAccessibleRole() {
+        return AccessibleRole.PUSH_BUTTON;
+      }
+    }
   }
 }
